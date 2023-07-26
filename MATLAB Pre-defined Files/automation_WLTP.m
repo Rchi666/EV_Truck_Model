@@ -1,24 +1,26 @@
+% For detailed user guidance, go to https://github.com/Rchi666/EV_Truck_Model.git
 %% Initial Value Setup
 clear
 clc
-Veh_mass = 2885;              % 2885/5885 Load
-Power_option = 132;         % 95/132/150kW motor
-Batt_soc_init = 1;
-Elec_aux_sw = 1;
-Elec_rgn_sw = 1;
-Run_number = 1;
-testrun = 'WLTP';               % WLTP/CLTC/...
+Veh_mass = 2885;              % Total mass of vehicle in kilograms
+Power_option = 132;         % Three power options available: 95/132/150kW motor
+Batt_soc_init = 1;                % Initial state of charge of the battery, set from 0 to 100%
+Elec_aux_sw = 1;                 % Switch of auxiliary power consumption
+Elec_rgn_sw = 1;                 % Switch of regenerative braking system
+Run_number = 1;               % Identifier of run number
+testrun = 'NEDC';               % Set simulation test cycle: NEDC/WLTP/CLTC/... Remember to select the test cycle and update simulation time first
+
+%% Test Run
 Simulink.sdi.view;
 Simulink.sdi.clear;
-sim("JAC_i5_BnM_iCloud.slx");
+sim("EV_Truck_Model.slx");      %Testrun to ensure proper settings
 % remember to activate Fast Restart first!!
-% set_param(JAC_i5_BnM_iCloud,"FastRestart","on")
-pause(5);
-Simulink.sdi.loadView('Templete1800NEW.mldatx');
+pause(5); 
+Simulink.sdi.loadView('TempleteWLTP.mldatx');
 pause(5);
 Simulink.sdi.clear;
 
-% Start simulation loop
+%% Start Simulation Loop
 for m = 0:1
     if m ==0
         Veh_mass = 2885;
@@ -65,7 +67,7 @@ for m = 0:1
                              newline ,'     Elec_rgn_sw: ', num2str(Elec_rgn_sw), ...
                              newline ,'     Elec_aux_sw: ', num2str(Elec_aux_sw)];
                     disp(X);
-                    runsim(Run_number, Power_option);
+                    runsim(Run_number, Power_option);       %Call out for simulation function
                     Run_number = Run_number+1;
                 end
             end
@@ -77,12 +79,12 @@ end
 datafilename = [testrun,'_Result.mldatx'];
 
 Simulink.sdi.save(datafilename);
-%% Run Simulation
+%% Call Simulation Function
 function [] = runsim(RN,PO)
 % Open data inspector and run simulation
-    sim("JAC_i5_BnM_iCloud.slx");
+    sim("EV_Truck_Model.slx");
     pause(5);
-    Simulink.sdi.loadView('Templete1800NEW.mldatx');
+    Simulink.sdi.loadView('TempleteWLTP.mldatx');
     pause(5);
 % Take a snapshot from simulink data inspector
     fig = Simulink.sdi.snapshot;
