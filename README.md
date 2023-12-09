@@ -1,7 +1,13 @@
 # EV_Truck_Model
 A battery-electric truck model based on MATLAB/Simulink environment
 
-Shared by CJ. Peng, SOLAB, National Taiwan University
+_Shared by CJ. Peng, SOLAB, National Taiwan University_
+
+For detailed vehicle parameters, procedure of development and model architecture, please refer to the thesis: 
+
+*[Modeling of a modern electric truck with the integration of in-the-loop simulation technologies](https://tdr.lib.ntu.edu.tw/jspui/handle/123456789/88622)* _(DOI: 10.6342/NTU202302383)_
+
+Please contact pengcj@solab.me.ntu.edu.tw for further discussion
 
 ## Basics about the electric truck model
 ### Simulation environment and necessary packages
